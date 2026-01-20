@@ -47,24 +47,19 @@ struct OnboardingPage {
 extension OnboardingPage {
     static let samplePages: [OnboardingPage] = [
         OnboardingPage(
-            systemImageName: "hand.wave.fill",
+            imageName: "onboarding-1",
             title: "Добро пожаловать!",
             description: "Мы рады видеть вас в нашем приложении. Давайте познакомимся с основными функциями."
         ),
         OnboardingPage(
-            systemImageName: "star.fill",
+            imageName: "onboarding-2",
             title: "Избранное",
             description: "Сохраняйте понравившиеся элементы в избранное для быстрого доступа к ним."
         ),
         OnboardingPage(
-            systemImageName: "bell.fill",
+            imageName: "onboarding-3",
             title: "Уведомления",
             description: "Включите уведомления, чтобы не пропустить важные обновления и новости."
-        ),
-        OnboardingPage(
-            systemImageName: "checkmark.circle.fill",
-            title: "Всё готово!",
-            description: "Теперь вы готовы начать использовать приложение. Приятного пользования!"
         )
     ]
 }
