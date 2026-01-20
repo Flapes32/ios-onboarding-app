@@ -1,23 +1,14 @@
 import UIKit
 
-// MARK: - Добавление нескольких subviews
 extension UIView {
-    /// Добавляет несколько subviews за один вызов
-    /// - Parameter views: Массив views для добавления
     func addSubviews(_ views: UIView...) {
         views.forEach { addSubview($0) }
     }
-}
-
-// MARK: - Настройка Auto Layout
-extension UIView {
-    /// Отключает autoresizing mask и включает Auto Layout
+    
     func enableAutoLayout() {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    /// Привязывает view ко всем краям родителя
-    /// - Parameter padding: Отступы от краёв (по умолчанию 0)
     func pinToEdges(of superview: UIView, padding: CGFloat = 0) {
         enableAutoLayout()
         NSLayoutConstraint.activate([
@@ -28,7 +19,6 @@ extension UIView {
         ])
     }
     
-    /// Привязывает view ко всем краям Safe Area родителя
     func pinToSafeArea(of superview: UIView, padding: CGFloat = 0) {
         enableAutoLayout()
         NSLayoutConstraint.activate([
@@ -39,7 +29,6 @@ extension UIView {
         ])
     }
     
-    /// Центрирует view в родителе
     func centerInSuperview() {
         guard let superview = superview else { return }
         enableAutoLayout()
@@ -49,7 +38,6 @@ extension UIView {
         ])
     }
     
-    /// Устанавливает размер view
     func setSize(width: CGFloat? = nil, height: CGFloat? = nil) {
         enableAutoLayout()
         if let width = width {

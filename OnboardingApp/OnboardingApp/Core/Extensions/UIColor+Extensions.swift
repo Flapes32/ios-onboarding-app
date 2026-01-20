@@ -1,8 +1,6 @@
 import UIKit
 
 extension UIColor {
-    /// Создает цвет из HEX строки
-    /// - Parameter hex: HEX строка (например, "#FF0000" или "FF0000")
     convenience init(hex: String) {
         var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
@@ -17,12 +15,11 @@ extension UIColor {
         self.init(red: red, green: green, blue: blue, alpha: 1.0)
     }
     
-    /// Цвета приложения с поддержкой Dark Mode
     static var appPrimary: UIColor {
         return UIColor { traitCollection in
             return traitCollection.userInterfaceStyle == .dark
-                ? UIColor(hex: "#6C63FF")  // Фиолетовый для тёмной темы
-                : UIColor(hex: "#5B52E5")  // Чуть темнее для светлой
+                ? UIColor(hex: "#6C63FF")
+                : UIColor(hex: "#5B52E5")
         }
     }
     
