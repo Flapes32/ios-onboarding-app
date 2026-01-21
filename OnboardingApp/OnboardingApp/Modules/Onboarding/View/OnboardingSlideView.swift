@@ -9,22 +9,24 @@ final class OnboardingSlideView: UIView {
         return imageView
     }()
     
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 28, weight: .bold)
+        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.adjustsFontForContentSizeCategory = true
+        label.textColor = .appText
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.textColor = .appText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let descriptionLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
+        label.textColor = .appSecondaryText
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.textColor = .appSecondaryText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -74,15 +76,21 @@ final class OnboardingSlideView: UIView {
     }
     
     private func setupConstraints() {
+        let isSmallScreen = UIScreen.main.bounds.height < 700
+        
+        let topPadding: CGFloat = isSmallScreen ? 30 : 60
+        let imageHeightMultiplier: CGFloat = isSmallScreen ? 0.25 : 0.35
+        let textTopPadding: CGFloat = isSmallScreen ? 20 : 40
+        
         imageViewCenterXConstraint = imageView.centerXAnchor.constraint(equalTo: centerXAnchor)
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 60),
+            imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: topPadding),
             imageViewCenterXConstraint!,
             imageView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: 0.6),
-            imageView.heightAnchor.constraint(lessThanOrEqualTo: heightAnchor, multiplier: 0.35),
+            imageView.heightAnchor.constraint(lessThanOrEqualTo: heightAnchor, multiplier: imageHeightMultiplier),
             
-            textStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 40),
+            textStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: textTopPadding),
             textStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
             textStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32)
         ])
