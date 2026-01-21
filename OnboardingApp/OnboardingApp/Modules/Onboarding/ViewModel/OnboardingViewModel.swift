@@ -10,6 +10,7 @@ final class OnboardingViewModel {
         didSet {
             onPageChanged?(currentPageIndex)
             onButtonTitleChanged?(nextButtonTitle)
+            onPageIndexChanged?(currentPageIndex)
         }
     }
     
@@ -33,6 +34,7 @@ final class OnboardingViewModel {
     var onPageChanged: ((Int) -> Void)?
     var onDismiss: (() -> Void)?
     var onButtonTitleChanged: ((String) -> Void)?
+    var onPageIndexChanged: ((Int) -> Void)?
     
     init(
         pages: [OnboardingPage] = OnboardingPage.samplePages,
@@ -46,7 +48,9 @@ final class OnboardingViewModel {
         if isLastPage {
             completeOnboarding()
         } else {
-            goToNextPage()
+            let nextIndex = currentPageIndex + 1
+            guard nextIndex < pages.count else { return }
+            currentPageIndex = nextIndex
         }
     }
     
