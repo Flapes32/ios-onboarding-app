@@ -79,6 +79,10 @@ final class OnboardingViewController: UIViewController {
         viewModel.onDismiss = { [weak self] in
             self?.dismiss(animated: true)
         }
+        
+        viewModel.onPageIndexChanged = { [weak self] index in
+            self?.syncPageViewControllerWithViewModel()
+        }
     }
     
     private func configurePageViewController() {
@@ -137,6 +141,15 @@ final class OnboardingViewController: UIViewController {
 extension OnboardingViewController: OnboardingPageViewControllerDelegate {
     
     func onboardingPageViewController(_ controller: OnboardingPageViewController, didUpdatePageIndex index: Int) {
-        viewModel.didScrollToPage(index: index)
+        if viewModel.currentPageIndex != index {
+            viewModel.didScrollToPage(index: index)
+        }
+    }
+    
+    private func syncPageViewControllerWithViewModel() {
+        let targetIndex = viewModel.currentPageIndex
+        if pageViewController.currentPageIndex != targetIndex {
+            pageViewController.goToPage(index: targetIndex, animated: true)
+        }
     }
 }

@@ -25,6 +25,16 @@ final class MainViewController: UIViewController {
         return button
     }()
     
+    private lazy var resetButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Сбросить онбординг", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
+        button.setTitleColor(.appSecondaryText, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     init(viewModel: MainViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -43,12 +53,16 @@ final class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.refreshState()
+        
+        if !viewModel.isOnboardingCompleted {
+            showOnboarding()
+        }
     }
     
     private func setupUI() {
         view.backgroundColor = .appBackground
         
-        view.addSubviews(titleLabel, actionButton)
+        view.addSubviews(titleLabel, actionButton, resetButton)
         
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -58,7 +72,10 @@ final class MainViewController: UIViewController {
             actionButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            actionButton.heightAnchor.constraint(equalToConstant: 50)
+            actionButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            resetButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            resetButton.topAnchor.constraint(equalTo: actionButton.bottomAnchor, constant: 20)
         ])
     }
     
@@ -78,6 +95,10 @@ final class MainViewController: UIViewController {
     
     @objc private func buttonTapped() {
         viewModel.didTapButton()
+    }
+    
+    @objc private func resetButtonTapped() {
+        viewModel.resetOnboardingState()
     }
     
     private func showOnboarding() {
