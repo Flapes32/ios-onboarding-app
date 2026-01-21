@@ -8,6 +8,8 @@ final class OnboardingPageViewController: UIPageViewController {
     
     weak var pageDelegate: OnboardingPageViewControllerDelegate?
     
+    var onScrollProgressChanged: ((_ progress: CGFloat, _ pageIndex: Int) -> Void)?
+    
     private var pages: [OnboardingPage] = []
     private var pageViewControllers: [UIViewController] = []
     
@@ -32,6 +34,13 @@ final class OnboardingPageViewController: UIPageViewController {
         delegate = self
         
         view.backgroundColor = .appBackground
+        
+        for subview in view.subviews {
+            if let scrollView = subview as? UIScrollView {
+                scrollView.delegate = self
+                break
+            }
+        }
     }
     
     func configure(with pages: [OnboardingPage]) {
@@ -128,5 +137,16 @@ extension OnboardingPageViewController: UIPageViewControllerDelegate {
         
         currentPageIndex = index
         pageDelegate?.onboardingPageViewController(self, didUpdatePageIndex: index)
+    }
+}
+
+extension OnboardingPageViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.bounds.width
+        let offset = scrollView.contentOffset.x
+        let progress = (offset - pageWidth) / pageWidth
+        
+        onScrollProgressChanged?(progress, currentPageIndex)
     }
 }
