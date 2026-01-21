@@ -43,6 +43,10 @@ final class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.refreshState()
+        
+        if !viewModel.isOnboardingCompleted {
+            showOnboarding()
+        }
     }
     
     private func setupUI() {
